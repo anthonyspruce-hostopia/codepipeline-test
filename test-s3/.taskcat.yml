@@ -1,0 +1,11 @@
+project:
+  name: test-codepipeline-build
+  regions:
+  - ap-southeast-2
+tests:
+  default:
+    template: ./s3.yaml
+    parameters:
+      Environment: Prod
+      S3BucketName: anchor-test-bucket-0b8l2q8rbsmugc
+      OutputName: AnchorTestBucket
