@@ -1,0 +1,47 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: S3 Bucket Template
+
+# DEPLOYMENT
+# aws cloudformation create-stack --stack-name <stackname> --template-body file://s3.yml --parameters file://s3-params.json
+
+# UPDATE
+# aws cloudformation update-stack --stack-name <stackname> --template-body file://s3.yml --parameters file://s3-params.json
+
+# DELETE
+# aws cloudformation delete-stack --stack-name <stackname>
+
+Parameters:
+  Environment:
+    Description: The type of environment (i.e, prod) used for naming and tagging.
+    Type: String
+
+  S3BucketName:
+    Description: The Name of the S3 Bucket
+    Type: String
+
+  OutputName:
+    Description: A Friendly Output name for the resource export
+    Type: String
+
+Resources:
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: 'Retain'
+    Properties:
+      BucketName: !Ref S3BucketName
+      AccessControl: 'Private'
+      BucketEncryption:
+       ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: 'AES256'
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        IgnorePublicAcls: true
+        BlockPublicPolicy: true
+        RestrictPublicBuckets: true
+
+Outputs:
+  S3Bucket:
+    Value: !Ref S3Bucket
+    Export:
+      Name: !Sub '${Environment}S3Bucket${OutputName}'
