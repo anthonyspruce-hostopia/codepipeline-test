@@ -1,3 +1,16 @@
 general:
+  auth:
+    default: default
   parameters:
     test: 'true'
+project:
+  name: test-codepipeline-build
+  regions:
+  - ap-southeast-2
+tests:
+  default:
+    template: ./test-s3/s3.yml
+    parameters:
+      Environment: Prod
+      S3BucketName: anchor-test-bucket-0b8l2q8rbsmugc
+      OutputName: AnchorTestBucket
